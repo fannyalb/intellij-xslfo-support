@@ -46,6 +46,8 @@ public final class XslFoRunConfiguration extends LocatableConfigurationBase
     @Nullable
     private VirtualFilePointer myXmlInputFile = null;
 
+    private XslFoOutputFormat myOutputFormat = XslFoOutputFormat.PNG;
+
     public XslFoRunConfiguration(Project project, ConfigurationFactory factory) {
         super(project, factory, NAME);
     }
@@ -237,5 +239,13 @@ public final class XslFoRunConfiguration extends LocatableConfigurationBase
 
     public boolean isUseTemporaryFiles() {
         return useTemporaryFiles;
+    }
+
+    public XslFoOutputFormat getMyOutputFormat() {
+        return myOutputFormat;
+    }
+
+    public void setMyOutputFormat(XslFoOutputFormat myOutputFormat) {
+        this.myOutputFormat = myOutputFormat;
     }
 }

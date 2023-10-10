@@ -42,7 +42,8 @@ public class XslFoCommandLineState extends CommandLineState {
         this.myXslFoRunConfiguration = xslFoRunConfiguration;
         if (myXslFoRunConfiguration.isUseTemporaryFiles()) {
             try {
-                temporaryFile = File.createTempFile("fo_", ".pdf");
+                String fileEnding = String.format(".%s", getOutputFormatAsString(myXslFoRunConfiguration.getMyOutputFormat()));
+                temporaryFile = File.createTempFile("fo_", fileEnding);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -128,7 +129,7 @@ public class XslFoCommandLineState extends CommandLineState {
         commandLine.addParameters("-xsl", myXslFoRunConfiguration.getXsltFile());
 
         // OUTPUT FORMAT (TODO: add other formats support)
-        commandLine.addParameter("-pdf");
+        commandLine.addParameter(String.format("-%s", getOutputFormatAsString(myXslFoRunConfiguration.getMyOutputFormat())));
 
         // OUT FILE
         commandLine.addParameter(getOutputFilePath());
@@ -137,5 +138,13 @@ public class XslFoCommandLineState extends CommandLineState {
 
     private String getOutputFilePath() {
         return (temporaryFile != null) ? temporaryFile.getAbsolutePath() : myXslFoRunConfiguration.getOutputFile();
+    }
+
+    private String getOutputFormatAsString(XslFoOutputFormat format){
+        switch (format){
+            case PDF: return "pdf";
+            case PNG: return "png";
+        }
+        return "";
     }
 }
